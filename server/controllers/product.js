@@ -50,3 +50,55 @@ exports.getWoods = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.addArticle = async (req, res, next) => {
+  const product = new Product(req.body);
+  try {
+    const article = await product.save();
+    res.status(200).json({ success: true, article })
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.getArticlesByAttr = async (req, res, next) => {
+
+  const order = req.query.order ? req.query.order : 'asc';
+  const sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  const limit = req.query.limit ? parseInt(req.query.limit) : 100;
+
+  try {
+    const articles = await Product.find().populate('brand').populate('wood').sort([[sortBy, order]]).limit(limit);
+    res.status(200).send(articles);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.getArticlesByIds = async (req, res, next) => {
+  const type = req.query.type;
+  let items = req.query.id;
+
+  if(type === "array"){
+      let ids = req.query.id.split(',');
+      items = [];
+      items = ids.map(id => mongoose.Types.ObjectId(id));
+  }
+  try {
+    const products = await Product.find({ '_id':{$in:items}}).populate('brand').populate('wood');
+    res.status(200).send(products);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+
