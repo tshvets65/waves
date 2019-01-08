@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv');
 
 const userRoutes = require('./routes/user');
+const productRoutes = require('./routes/product');
 
 
 const app = express();
@@ -14,6 +15,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/users', userRoutes);
+app.use('/api/product', productRoutes);
+
 
 app.use((error, req, res, next) => {
   console.log(error);
