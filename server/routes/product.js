@@ -19,5 +19,6 @@ router.get('/articles', productController.getArticlesByAttr);
 /// /article?id=HSHSHSKSK,JSJSJSJS,SDSDHHSHDS,JSJJSDJ&type=single
 router.get('/articles_by_id', productController.getArticlesByIds);
 
+router.post('/shop', productController.getArticles);
 
 module.exports = router;

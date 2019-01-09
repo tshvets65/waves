@@ -9,7 +9,7 @@ export default function (ChildComponent, reload, adminRoute = null) {
       this.props.dispatch(auth()).then(response => {
         let user = this.props.user.userData;
 
-        if (!user.isAuth) {
+        if (!user || !user.isAuth) {
           if (reload) {
             this.props.history.push('/login')
           }
