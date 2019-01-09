@@ -1,5 +1,6 @@
 const Brand = require('../models/brand');
 const Wood = require('../models/wood');
+const Product = require('../models/product');
 
 exports.addBrand = async (req, res, next) => {
   const brand = new Brand(req.body);
