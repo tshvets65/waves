@@ -28,9 +28,10 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    process.env.MONGO_URL
+    process.env.MONGODB
   )
   .then(result => {
+    console.log(`Connected to ${process.env.MONGODB}`);
     app.listen(process.env.PORT || 3002, () => console.log(`Server listening ...`));
   })
   .catch(err => console.log(err));

@@ -52,12 +52,13 @@ exports.auth = (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
-    const user = await User.findOneAndUpdate({ _id:req.user._id }, { token: '' });
+    const user = await User.findOneAndUpdate({ _id: req.user._id }, { token: '' });
     if (!user) {
       const error = new Error('Logout failed, user not found');
       error.statusCode = 401;
       throw error;
     }
+    res.clearCookie('w-auth');
     res.status(200).json({ success: true });
   } catch(err) {
     if (!err.statusCode) {
