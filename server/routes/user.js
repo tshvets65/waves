@@ -1,4 +1,5 @@
 const express = require('express');
+const formidable = require('express-formidable');
 const userController = require('../controllers/user');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
@@ -12,5 +13,9 @@ router.post('/login', userController.login);
 router.get('/auth', auth, userController.auth);
 
 router.get('/logout', auth, userController.logout);
+
+router.post('/uploadimage', auth, admin, formidable(), userController.uploadImage);
+
+router.get('/removeimage', auth, admin, userController.removeImage);
 
 module.exports = router;

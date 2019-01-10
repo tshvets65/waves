@@ -21,7 +21,7 @@ const User = () => {
         </div>
 
         <div className="user_nfo_panel">
-          <h1>History purchases</h1>
+          <h1>History of purchases</h1>
           <div className="user_product_block_wrapper">
             history
           </div>

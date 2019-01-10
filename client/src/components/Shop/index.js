@@ -29,7 +29,7 @@ class Shop extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getBrands()).then(()=>console.log(this.props.products.brands.brands));
+    this.props.dispatch(getBrands());
     this.props.dispatch(getWoods());
 
     this.props.dispatch(getProductsToShop(
@@ -37,8 +37,6 @@ class Shop extends Component {
       this.state.limit,
       this.state.filters
     ))
-
-    
   }
 
   handlePrice = (value) => {

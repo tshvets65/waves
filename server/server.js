@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary');
+
 require('dotenv');
 
 const userRoutes = require('./routes/user');
@@ -13,6 +15,14 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+app.use(express.static('client/build'));
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
+});
 
 app.use('/api/users', userRoutes);
 app.use('/api/product', productRoutes);

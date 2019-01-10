@@ -1,3 +1,5 @@
+const cloudinary = require('cloudinary');
+
 const User = require('../models/user');
 
 exports.register = async (req, res, next) => {
@@ -67,3 +69,35 @@ exports.logout = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
+exports.uploadImage = async (req, res, next)=>{
+  try {
+    const result = await cloudinary.v2.uploader.upload(req.files.file.path, {public_id: `waves/${Date.now()}`});
+    res.status(200).send({
+      public_id: result.public_id,
+      url: result.url
+    });
+  } catch(err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.removeImage = async (req, res, next)=>{
+  const image_id = req.query.public_id;
+
+  try {
+    await cloudinary.uploader.destroy(image_id);
+    res.status(200).send('ok');
+  } catch(err) {
+    //res.json({succes:false, error});
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+}
