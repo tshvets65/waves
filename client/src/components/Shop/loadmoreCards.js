@@ -15,7 +15,7 @@ const LoadmoreCards = (props) => {
           <div className="load_more_container">
             <span onClick={() => props.loadMore()}>
               Load More
-                        </span>
+            </span>
           </div>
           : null
       }

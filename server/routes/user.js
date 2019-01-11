@@ -18,4 +18,10 @@ router.post('/uploadimage', auth, admin, formidable(), userController.uploadImag
 
 router.get('/removeimage', auth, admin, userController.removeImage);
 
+router.post('/addToCart', auth, userController.addToCart);
+
+router.get('/removeFromCart', auth, userController.removeFromCart);
+
+router.post('/successBuy', auth, userController.successBuy);
+
 module.exports = router;

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { withRouter } from 'react-router-dom';
 
 import PageTop from '../utils/page_top';
 import ProdNfo from './prodNfo';
 import ProdImg from './prodImg';
 
 import { connect } from 'react-redux';
-//import { addToCart } from '../../actions/user';
+import { addToCart } from '../../actions/user';
 import { getProductDetail, clearProductDetail } from '../../actions/products';
 
 class ProductPage extends Component {
@@ -21,11 +22,12 @@ class ProductPage extends Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(clearProductDetail())
+    this.props.dispatch(clearProductDetail());
   }
 
   addToCartHandler(id) {
-    //this.props.dispatch(addToCart(id))
+    this.props.dispatch(addToCart(id))
+      .then(() => this.props.history.push('/user/cart'));
   }
 
   render() {
@@ -71,4 +73,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ProductPage);
+export default connect(mapStateToProps)(withRouter(ProductPage));

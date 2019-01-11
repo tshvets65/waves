@@ -58,7 +58,7 @@ class Header extends Component {
 
     return (
       <div className="cart_link" key={i}>
-        {user.cart && user.cart.length ? <span>user.cart.length</span> : null}
+        {user.cart && user.cart.length ? <span>{user.cart.length}</span> : null}
         <Link to={item.linkTo}>
           {item.name}
         </Link>
@@ -83,7 +83,6 @@ class Header extends Component {
 
   showLinks = (type) => {
     const list = [];
-    //console.log(this.props.user.userData);
     if (this.props.user.userData) {
       type.forEach(item => {
         if (!this.props.user.userData.isAuth) {
