@@ -112,3 +112,22 @@ export function onSuccessBuy(data) {
     payload: request
   }
 }
+
+export function updateUserData(dataToSubmit) {
+  const request = axios.post(`${USER_SERVER}/update_profile`, dataToSubmit)
+    .then(response => {
+      return response.data
+    });
+
+  return {
+    type: ActionTypes.UPDATE_DATA_USER,
+    payload: request
+  }
+}
+
+export function clearUpdateUser() {
+  return {
+    type: ActionTypes.CLEAR_UPDATE_USER_DATA,
+    payload: ''
+  }
+}

@@ -1,9 +1,10 @@
 import React from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCompass, faPhone, faClock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCompass, faPhone, faClock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-const Footer = (props) => {
+const Footer = ({ data }) => {
   return (
+    data.siteData ?
       <footer className="bck_b_dark">
         <div className="container">
           <div className="logo">
@@ -20,7 +21,7 @@ const Footer = (props) => {
                   />
                   <div className="nfo">
                     <div>Address</div>
-                    <div>123 River Ave, Silverdale, CA 95055</div>
+                    <div>{data.siteData[0].address}</div>
                   </div>
                 </div>
                 <div className="tag">
@@ -30,7 +31,7 @@ const Footer = (props) => {
                   />
                   <div className="nfo">
                     <div>Phone</div>
-                    <div>555-555-5555</div>
+                    <div>{data.siteData[0].phone}</div>
                   </div>
                 </div>
                 <div className="tag">
@@ -40,7 +41,7 @@ const Footer = (props) => {
                   />
                   <div className="nfo">
                     <div>Working hours</div>
-                    <div>Mon - Fri/ 9am - 8pm</div>
+                    <div>{data.siteData[0].hours}</div>
                   </div>
                 </div>
                 <div className="tag">
@@ -50,7 +51,7 @@ const Footer = (props) => {
                   />
                   <div className="nfo">
                     <div>Email</div>
-                    <div>info@waves.com</div>
+                    <div>{data.siteData[0].email}</div>
                   </div>
                 </div>
               </div>
@@ -66,6 +67,7 @@ const Footer = (props) => {
           </div>
         </div>
       </footer>
+      : null
   );
 };
 

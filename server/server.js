@@ -8,7 +8,7 @@ require('dotenv');
 
 const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
-
+const siteRoutes = require('./routes/site');
 
 const app = express();
 
@@ -26,7 +26,7 @@ cloudinary.config({
 
 app.use('/api/users', userRoutes);
 app.use('/api/product', productRoutes);
-
+app.use('/api/site', siteRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
