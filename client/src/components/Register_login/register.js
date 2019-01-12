@@ -109,18 +109,19 @@ class Register extends Component {
     if (formIsValid) {
       this.props.dispatch(registerUser(dataToSubmit))
         .then(response => {
-          if (response.payload.success) {
+          if(response.payload.success) {
             this.setState({
               formError: false,
               formSuccess: true
             });
             setTimeout(() => {
-              this.props.history.push('/register_login');
+              this.props.history.push('/login');
             }, 3000)
           } else {
             this.setState({ formError: true })
           }
         }).catch(e => {
+          console.log(e);
           this.setState({ formError: true })
         })
     } else {
@@ -195,9 +196,9 @@ class Register extends Component {
 
         <Dialog open={this.state.formSuccess}>
           <div className="dialog_alert">
-            <div>Congratulations !!</div>
+            <div>Congratulations, you are registered!</div>
             <div>
-              You will be redirected to the LOGIN in a couple seconds...
+              You will be redirected to the LOGIN page in a moment...
             </div>
           </div>
         </Dialog>

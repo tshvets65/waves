@@ -7,11 +7,15 @@ const User = require('../models/user');
 const Product = require('../models/product');
 const Payment = require('../models/payment');
 
+const { sendEmail } = require('../utils/mail/index');
+
+
 exports.register = async (req, res, next) => {
   const user = new User(req.body);
   try {
     const result = await user.save();
-    res.status(200).json({ sucess: true, userdata: result })
+    sendEmail(result.email, result.name, null, 'welcome');
+    return res.status(200).json({ success: true, userdata: result })
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -74,7 +78,6 @@ exports.logout = async (req, res, next) => {
     next(err);
   }
 };
-
 
 exports.uploadImage = async (req, res, next) => {
   try {
@@ -240,7 +243,7 @@ exports.successBuy = (req, res) => {
           )
         }, (err) => {
           if (err) return res.json({ success: false, err });
-          //sendEmail(user.email, user.name, null, "purchase", transactionData);
+          sendEmail(user.email, user.name, null, "purchase", transactionData);
           res.status(200).json({
             success: true,
             cart: user.cart,
