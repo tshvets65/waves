@@ -18,10 +18,7 @@ exports.register = async (req, res, next) => {
     sendEmail(result.email, result.name, null, 'welcome');
     return res.status(200).json({ success: true, userdata: result })
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.json({success:false, err});
   }
 };
 
@@ -35,17 +32,27 @@ exports.login = async (req, res, next) => {
     }
     const isMatch = await user.comparePassword(req.body.password);
     if (!isMatch) {
-      const error = new Error('Wrong password!');
-      error.statusCode = 401;
-      throw error;
+      return res.json({loginSuccess:false, message:'Wrong password'});
     }
     const updatedUser = await user.generateToken();
     res.cookie('w_auth', updatedUser.token).status(200).json({ loginSuccess: true });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
+    res.status(400).send(err);
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  try {
+    const user = await User.findOneAndUpdate({ _id: req.user._id }, { token: '' });
+    if (!user) {
+      const error = new Error('Logout failed, user not found');
+      error.statusCode = 401;
+      throw error;
     }
-    next(err);
+    res.clearCookie('w-auth');
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.json({success:false, err});
   }
 };
 
@@ -103,23 +110,7 @@ exports.auth = (req, res, next) => {
   })
 };
 
-exports.logout = async (req, res, next) => {
-  try {
-    const user = await User.findOneAndUpdate({ _id: req.user._id }, { token: '' });
-    if (!user) {
-      const error = new Error('Logout failed, user not found');
-      error.statusCode = 401;
-      throw error;
-    }
-    res.clearCookie('w-auth');
-    res.status(200).json({ success: true });
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  }
-};
+
 
 exports.uploadImage = async (req, res, next) => {
   try {
@@ -129,10 +120,7 @@ exports.uploadImage = async (req, res, next) => {
       url: result.url
     });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.json({succes:false, err});
   }
 };
 
@@ -143,11 +131,7 @@ exports.removeImage = async (req, res, next) => {
     await cloudinary.uploader.destroy(image_id);
     res.status(200).send('ok');
   } catch (err) {
-    //res.json({succes:false, error});
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.json({succes:false, err});
   }
 }
 

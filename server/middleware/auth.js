@@ -4,16 +4,12 @@ const jwt = require('jsonwebtoken');
 module.exports = async (req, res, next) => {
   const token = req.cookies.w_auth;
   if(!token) {
-    const error = new Error('Not authenticated.');
-    error.statusCode = 401;
-    throw error;
+    return res.json({ isAuth: false });
   }
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET);
     if (!decodedToken) {
-      const error = new Error('Not authenticated.');
-      error.statusCode = 401;
-      throw error;
+      return res.json({ isAuth: false });
     }
     const user = await User.findOne({_id: decodedToken, token});
     if(!user) return res.json({ isAuth: false });
@@ -21,6 +17,6 @@ module.exports = async (req, res, next) => {
     req.user = user;
     next();
   } catch(err) {
-    next(err);
+    return res.json({ isAuth: false });
   }
 };
