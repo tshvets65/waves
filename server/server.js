@@ -28,6 +28,14 @@ app.use('/api/users', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/site', siteRoutes);
 
+// DEFAULT 
+if( process.env.NODE_ENV === 'production' ){
+  const path = require('path');
+  app.get('/*', (req, res, next) => {
+      res.sendfile(path.resolve(__dirname, '../client', 'build', 'index.html'))
+  })
+}
+
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
@@ -38,10 +46,10 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    process.env.MONGODB
+    process.env.MONGODB_URI
   )
   .then(result => {
-    console.log(`Connected to ${process.env.MONGODB}`);
+    console.log(`Connected to ${process.env.MONGODB_URI}`);
     app.listen(process.env.PORT || 3002, () => console.log(`Server listening ...`));
   })
   .catch(err => console.log(err));
