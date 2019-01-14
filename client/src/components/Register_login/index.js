@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+
 import MyButton from '../utils/button';
 import LoginForm from './login';
 
-const Login = () => {
+const Login = (props) => {
   return (
     <div className="page_wrapper">
       <div className="container">
@@ -20,7 +22,12 @@ const Login = () => {
           </div>
           <div className="right">
             <h2>Registered customers</h2>
-            <p>If you have an account please log in.</p>
+            <p>
+              If you have an account please log in.
+              <div class="forgot_password_link">
+                <Link to='/reset_user'>Forgot my password</Link>
+              </div>
+            </p>
             <LoginForm />
           </div>
         </div>
@@ -29,4 +36,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);

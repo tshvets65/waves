@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+const moment = require('moment');
 const SALT_I = 10;
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -65,6 +67,17 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 userSchema.methods.generateToken = async function () {
   const token = jwt.sign(this._id.toHexString(), process.env.SECRET);
   this.token = token;
+  const updatedUser = await this.save();
+  return updatedUser;
+}
+
+userSchema.methods.generateResetToken = async function () {
+  const buffer = crypto.randomBytes(20);
+  const token = buffer.toString('hex');
+  // const today = moment().startOf('day').valueOf();
+  const tomorrow = moment().endOf('day').valueOf();
+  this.resetToken = token;
+  this.resetTokenExp = tomorrow;
   const updatedUser = await this.save();
   return updatedUser;
 }

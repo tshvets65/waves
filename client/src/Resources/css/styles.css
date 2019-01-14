@@ -895,3 +895,7 @@ footer .business_nfo .nfo {
     background-position: center center !important;
     border: 1px solid #eaeaea;
 }
+
+.forgot_password_link {
+    color: blue;
+}

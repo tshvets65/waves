@@ -16,5 +16,7 @@ router.post('/addToCart', auth, userController.addToCart);
 router.get('/removeFromCart', auth, userController.removeFromCart);
 router.post('/successBuy', auth, userController.successBuy);
 router.post('/update_profile', auth, userController.updateProfile);
+router.post('/reset_user', userController.resetUser);
+router.post('/reset_password', userController.resetPassword);
 
 module.exports = router;

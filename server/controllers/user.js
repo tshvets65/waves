@@ -2,6 +2,7 @@ const cloudinary = require('cloudinary');
 const SHA1 = require('crypto-js/sha1');
 const mongoose = require('mongoose');
 const async = require('async');
+const moment = require('moment');
 
 const User = require('../models/user');
 const Product = require('../models/product');
@@ -46,6 +47,47 @@ exports.login = async (req, res, next) => {
     }
     next(err);
   }
+};
+
+exports.resetUser = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ 'email': req.body.email });
+    if (!user) {
+      const error = new Error('Email not found');
+      error.statusCode = 401;
+      throw error;
+    }
+    await user.generateResetToken();
+    sendEmail(user.email, user.name, null, "reset_password", user)
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    res.json({ success: false, err });
+  }
+};
+
+exports.resetPassword = (req, res) => {
+
+  const today = moment().startOf('day').valueOf();
+
+  User.findOne({
+    resetToken: req.body.resetToken,
+    resetTokenExp: {
+      $gte: today
+    }
+  }, (err, user) => {
+    if (!user) return res.json({ success: false, message: 'Sorry, bad token, please generate a new one.' })
+
+    user.password = req.body.password;
+    user.resetToken = '';
+    user.resetTokenExp = '';
+
+    user.save((err, doc) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).json({
+        success: true
+      })
+    })
+  })
 };
 
 exports.auth = (req, res, next) => {
