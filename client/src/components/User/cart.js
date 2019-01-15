@@ -137,7 +137,6 @@ class UserCart extends Component {
                 />
               </div>
               : null
-
           }
 
         </div>
