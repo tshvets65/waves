@@ -101,7 +101,7 @@ exports.getArticles = async (req, res, next) => {
   let order = req.body.order ? req.body.order : "desc";
   let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
-  let skip = parseInt(req.body.skip);
+  let skip = parseInt(req.body.page) * limit;
   let findArgs = {};
 
   for (let key in req.body.filters) {
@@ -120,6 +120,7 @@ exports.getArticles = async (req, res, next) => {
   findArgs['publish'] = true;
 
   try {
+    const totalItems = await Product.find(findArgs).countDocuments();
     const articles = await Product.
     find(findArgs).
     populate('brand').
@@ -128,7 +129,7 @@ exports.getArticles = async (req, res, next) => {
     skip(skip).
     limit(limit);
     res.status(200).json({
-      size: articles.length,
+      size: totalItems,
       articles
     });
   } catch (err) {

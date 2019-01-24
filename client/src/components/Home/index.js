@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import HomeSlider from './home_slider';
 import HomePromotion from './home_promotion'
 import CardBlock from '../utils/card_block';
@@ -17,7 +17,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <HomeSlider />
         <CardBlock
           list={this.props.products.bySell}
@@ -28,7 +28,7 @@ class Home extends Component {
           list={this.props.products.byArrival}
           title="New arrivals"
         />
-      </div>
+      </Fragment>
     );
   }
 }

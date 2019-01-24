@@ -1,15 +1,15 @@
 import React from 'react';
-import CardBlockShop from '../utils/card_block_shop';
+import CardBlock from '../utils/card_block';
 
 const LoadmoreCards = (props) => {
   return (
-    <div>
-      <div>
-        <CardBlockShop
+    <React.Fragment>
+      
+        <CardBlock
           grid={props.grid}
           list={props.products}
         />
-      </div>
+      
       {
         props.size > 0 && props.size >= props.limit ?
           <div className="load_more_container">
@@ -19,7 +19,7 @@ const LoadmoreCards = (props) => {
           </div>
           : null
       }
-    </div>
+    </React.Fragment>
   );
 };
 

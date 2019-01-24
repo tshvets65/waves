@@ -1,17 +1,20 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faPhone, faClock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { Container, Row, Col } from 'reactstrap';
 
 const Footer = ({ data }) => {
   return (
     data.siteData ?
-      <footer className="bck_b_dark">
-        <div className="container">
-          <div className="logo">
-            Waves
-          </div>
-          <div className="wrapper">
-            <div className="left">
+      <footer className="bck_b_dark pb-5">
+        <Container>
+          <Row>
+            <Col className="logo">
+              Waves
+            </Col>
+          </Row>
+          <Row>
+            <Col md="6">
               <h2>Contact information</h2>
               <div className="business_nfo">
                 <div className="tag">
@@ -55,17 +58,23 @@ const Footer = ({ data }) => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="left">
+            </Col>
+            <Col md="6">
               <h2>Be the first to know</h2>
               <div>
-                <div>
-                  Get all the latest information on events, sales and offers. You can miss out.
+                Get all the latest information on events, sales and offers. You can miss out.
                 </div>
+              <div className="mt-2">
+                <a className="mr-1 btn btn-social-icon btn-google" href="http://google.com/+"><i className="fa fa-google-plus"></i></a>
+                <a className="mr-1 btn btn-social-icon btn-facebook" href="http://www.facebook.com/profile.php?id="><i className="fa fa-facebook"></i></a>
+                <a className="mr-1 btn btn-social-icon btn-linkedin" href="http://www.linkedin.com/in/"><i className="fa fa-linkedin"></i></a>
+                <a className="mr-1 btn btn-social-icon btn-twitter" href="http://twitter.com/"><i className="fa fa-twitter"></i></a>
+                <a className="mr-1 btn btn-social-icon btn-google" href="http://youtube.com/"><i className="fa fa-youtube"></i></a>
+                <a className="mr-1 btn btn-social-icon" href="mailto:"><i className="fa fa-envelope-o"></i></a>
               </div>
-            </div>
-          </div>
-        </div>
+            </Col>
+          </Row>
+        </Container>
       </footer>
       : null
   );

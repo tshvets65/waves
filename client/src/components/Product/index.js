@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
-import PageTop from '../utils/page_top';
 import ProdNfo from './prodNfo';
 import ProdImg from './prodImg';
 
@@ -33,10 +33,14 @@ class ProductPage extends Component {
   render() {
     return (
       <div>
-        <PageTop
-          title="Product detail"
-        />
         <div className="container">
+        <div className="row">
+          <Breadcrumb> 
+            <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+            <BreadcrumbItem><Link to="/shop">Browse Products</Link></BreadcrumbItem>
+            <BreadcrumbItem active>Product detail</BreadcrumbItem>
+          </Breadcrumb>
+        </div>
           {
             this.props.products.prodDetail ?
               <div className="product_detail_wrapper">

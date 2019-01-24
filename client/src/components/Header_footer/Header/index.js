@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter  } from 'react-router-dom';
+import { Nav, Navbar, NavbarBrand, NavbarToggler, NavLink, Collapse, NavItem } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import { logoutUser } from '../../../actions/user';
@@ -14,7 +15,7 @@ class Header extends Component {
         public: true
       },
       {
-        name: 'Guitars',
+        name: 'Products',
         linkTo: '/shop',
         public: true
       }
@@ -31,7 +32,12 @@ class Header extends Component {
         public: false
       },
       {
-        name: 'Register | Log in',
+        name: 'Register',
+        linkTo: '/register',
+        public: true
+      },
+      {
+        name: 'Log in',
         linkTo: '/login',
         public: true
       },
@@ -40,7 +46,14 @@ class Header extends Component {
         linkTo: '/user/logout',
         public: false
       },
-    ]
+    ],
+    isNavOpen: false
+  }
+
+  toggleNavbar = () => {
+    this.setState({
+      isNavOpen: !this.state.isNavOpen
+    });
   }
 
 
@@ -66,18 +79,48 @@ class Header extends Component {
     )
   }
 
+  // defaultLink = (item, i) => (
+  //   item.name === 'Log out' ?
+  //     <div className="log_out_link"
+  //       key={i}
+  //       onClick={() => this.logoutHandler()}
+  //     >
+  //       {item.name}
+  //     </div>
+  //     :
+  //     <Link to={item.linkTo} key={i}>
+  //       {item.name}
+  //     </Link>
+  // )
+
+  cartLink = (item, i) => {
+    const user = this.props.user.userData;
+
+    return (
+      <NavItem key={i}>
+        
+        <NavLink tag={Link} to={item.linkTo}>
+          {item.name}
+          {user.cart && user.cart.length ? <span className='badge badge-primary badge-pill mb-3'>{user.cart.length}</span> : null}
+        </NavLink>
+      </NavItem>
+    )
+  }
+
   defaultLink = (item, i) => (
     item.name === 'Log out' ?
-      <div className="log_out_link"
-        key={i}
-        onClick={() => this.logoutHandler()}
-      >
-        {item.name}
-      </div>
+      <NavItem key={i} >
+        <NavLink href="#" onClick={() => this.logoutHandler()}>
+          {item.name}
+        </NavLink>
+
+      </NavItem>
       :
-      <Link to={item.linkTo} key={i}>
-        {item.name}
-      </Link>
+      <NavItem key={i}>
+        <NavLink tag={Link} to={item.linkTo}>
+          {item.name}
+        </NavLink> 
+      </NavItem>
   )
 
 
@@ -90,7 +133,7 @@ class Header extends Component {
             list.push(item)
           }
         } else {
-          if (item.name !== 'Log in') {
+          if (item.name !== 'Log in' && item.name !== 'Register') {
             list.push(item)
           }
         }
@@ -109,23 +152,35 @@ class Header extends Component {
 
   render() {
     return (
-      <header className="bck_b_light">
+      // <header className="bck_b_light">
+      //   <div className="container">
+      //     <div className="left">
+      //       <div className="logo">
+      //         Waves
+      //       </div>
+      //     </div>
+      //     <div className="right">
+      //       <div className="top">
+      //         {this.showLinks(this.state.user)}
+      //       </div>
+      //       <div className="bottom">
+      //         {this.showLinks(this.state.page)}
+      //       </div>
+      //     </div>
+      //   </div>
+      // </header>
+      <Navbar dark expand="md" className="bck_b_light">
         <div className="container">
-          <div className="left">
-            <div className="logo">
-              Waves
-            </div>
-          </div>
-          <div className="right">
-            <div className="top">
-              {this.showLinks(this.state.user)}
-            </div>
-            <div className="bottom">
-              {this.showLinks(this.state.page)}
-            </div>
-          </div>
+          <NavbarBrand href="/">Waves</NavbarBrand>
+          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
+          <Collapse isOpen={this.state.isNavOpen} navbar>
+            <Nav className="ml-auto" navbar>
+            {this.showLinks(this.state.page)}
+            {this.showLinks(this.state.user)}
+            </Nav>
+          </Collapse>
         </div>
-      </header>
+      </Navbar>
     );
   }
 }

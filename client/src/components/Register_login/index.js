@@ -22,12 +22,12 @@ const Login = (props) => {
           </div>
           <div className="right">
             <h2>Registered customers</h2>
-            <p>
+            <div>
               If you have an account please log in.
-              <div class="forgot_password_link">
+              <div className="forgot_password_link">
                 <Link to='/reset_user'>Forgot my password</Link>
               </div>
-            </p>
+            </div>
             <LoginForm />
           </div>
         </div>
