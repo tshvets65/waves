@@ -19,13 +19,11 @@ class Paypal extends Component {
     let total = this.props.toPay;
 
     const env = process.env.NODE_ENV === 'production' ? 'production' : 'sandbox';
-    console.log('process.env.NODE_ENV=', process.env.NODE_ENV);
 
     const client = {
       sandbox: process.env.REACT_APP_PAYPAL_CLIENT_ID_SANDBOX,
       production: process.env.REACT_APP_PAYPAL_CLIENT_ID_PRODUCTION,
     };
-    console.log('client=', client);
 
     return (
       <div>

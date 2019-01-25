@@ -1,14 +1,22 @@
 import React from 'react';
-import UserLayout from '../../hoc/userLayout';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+
 import ManageBrands from './manage_brands';
 import ManageWoods from './manage_woods';
 
 const ManageCategories = () => {
   return (
-    <UserLayout>
+
+      <div className="container">
+      <div className="row">
+        <Breadcrumb> 
+          <BreadcrumbItem>Admin</BreadcrumbItem>
+          <BreadcrumbItem active>Manage Categories</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
       <ManageBrands />
       <ManageWoods />
-    </UserLayout>
+    </div>
   );
 };
 

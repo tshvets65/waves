@@ -97,7 +97,6 @@ class Fileupload extends Component {
                   icon={faPlusCircle}
                 />
               </div>
-              Drop an image
             </Dropzone>
             {this.showUploadedImages()}
             {

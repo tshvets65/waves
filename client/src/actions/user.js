@@ -124,10 +124,3 @@ export function updateUserData(dataToSubmit) {
     payload: request
   }
 }
-
-export function clearUpdateUser() {
-  return {
-    type: ActionTypes.CLEAR_UPDATE_USER_DATA,
-    payload: ''
-  }
-}

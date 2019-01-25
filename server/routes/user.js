@@ -18,5 +18,7 @@ router.post('/successBuy', auth, userController.successBuy);
 router.post('/update_profile', auth, userController.updateProfile);
 router.post('/reset_user', userController.resetUser);
 router.post('/reset_password', userController.resetPassword);
+router.get('/confirm/:id', userController.confirmEmail);
+
 
 module.exports = router;

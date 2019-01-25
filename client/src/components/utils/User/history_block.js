@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { Table } from 'reactstrap';
 
 const UserHistoryBlock = (props) => {
   
@@ -18,7 +19,7 @@ const UserHistoryBlock = (props) => {
 
   return (
     <div className='history_blocks'>
-      <table>
+      <Table striped>
         <thead>
           <tr>
             <th>Date of purchase</th>
@@ -30,7 +31,7 @@ const UserHistoryBlock = (props) => {
         <tbody>
           {renderBlocks()}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };

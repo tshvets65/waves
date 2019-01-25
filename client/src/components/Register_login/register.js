@@ -11,6 +11,8 @@ class Register extends Component {
   state = {
     formError: false,
     formSuccess: false,
+    successMessage: '',
+    errorMessage: '',
     formdata: {
       name: {
         element: 'input',
@@ -96,7 +98,8 @@ class Register extends Component {
     const newFormdata = update(element, this.state.formdata, 'register');
     this.setState({
       formError: false,
-      formdata: newFormdata
+      formdata: newFormdata,
+      errorMessage: ''
     })
   }
 
@@ -112,21 +115,22 @@ class Register extends Component {
           if(response.payload.success) {
             this.setState({
               formError: false,
-              formSuccess: true
+              formSuccess: true,
+              successMessage: response.payload.message
             });
             setTimeout(() => {
               this.props.history.push('/login');
             }, 3000)
           } else {
-            this.setState({ formError: true })
+            this.setState({ formError: true, errorMessage: response.payload.message })
           }
         }).catch(e => {
-          console.log(e);
-          this.setState({ formError: true })
+          this.setState({ formError: true, errorMessage: 'Please check your input' })
         })
     } else {
       this.setState({
-        formError: true
+        formError: true,
+        errorMessage: 'Please check your input'
       })
     }
   }
@@ -182,7 +186,7 @@ class Register extends Component {
                 <div>
                   {this.state.formError ?
                     <div className="error_label">
-                      Please check your data
+                      {this.state.errorMessage}
                     </div>
                     : null}
                   <button onClick={(event) => this.submitForm(event)}>
@@ -196,9 +200,8 @@ class Register extends Component {
 
         <Dialog open={this.state.formSuccess}>
           <div className="dialog_alert">
-            <div>Congratulations, you are registered!</div>
             <div>
-              You will be redirected to the LOGIN page in a moment...
+              {this.state.successMessage}
             </div>
           </div>
         </Dialog>

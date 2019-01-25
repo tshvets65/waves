@@ -8,6 +8,8 @@ export default function (state = {}, action) {
       return { ...state, loginSucces: action.payload }
     case ActionTypes.AUTH_USER:
       return { ...state, userData: action.payload }
+    case ActionTypes.UPDATE_DATA_USER:
+      return { ...state, updateUser: action.payload }
     case ActionTypes.LOGOUT_USER:
       return { ...state }
     case ActionTypes.ADD_TO_CART_USER:

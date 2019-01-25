@@ -48,6 +48,10 @@ const userSchema = mongoose.Schema({
   },
   resetTokenExp: {
     type: Number
+  },
+  confirmed: {
+    type: Boolean,
+    default: false
   }
 });
 

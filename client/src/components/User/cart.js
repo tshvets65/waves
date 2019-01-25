@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import UserLayout from '../hoc/userLayout';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+
 import UserProductBlock from '../utils/User/product_block';
 
 import { connect } from 'react-redux';
@@ -94,9 +95,12 @@ class UserCart extends Component {
 
   render() {
     return (
-      <UserLayout>
-        <div>
-          <h1>My cart</h1>
+        <div className="container">
+          <div className="row">
+            <Breadcrumb> 
+              <BreadcrumbItem active>My Cart</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
           <div className="user_cart">
             <UserProductBlock
               products={this.props.user}
@@ -140,7 +144,6 @@ class UserCart extends Component {
           }
 
         </div>
-      </UserLayout>
 
     );
   }

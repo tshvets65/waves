@@ -9,26 +9,69 @@ const Product = require('../models/product');
 const Payment = require('../models/payment');
 
 const { sendEmail } = require('../utils/mail/index');
+const msgs = require('../utils/mail/email_msgs');
 
 
 exports.register = async (req, res, next) => {
-  const user = new User(req.body);
+  const { email, name, lastname, password } = req.body;
   try {
-    const result = await user.save();
-    sendEmail(result.email, result.name, null, 'welcome');
-    return res.status(200).json({ success: true, userdata: result })
+    const user = await User.findOne({ email });
+    if (!user) {
+      const newUser = await User.create({ email, name, lastname, password });
+      sendEmail(newUser.email, newUser.name, null, "confirm", newUser);
+      return res.status(200).json({ success: true, userdata: newUser, confirmed: false, message: msgs.confirm })
+    } else if (user && !user.confirmed) {
+      sendEmail(user.email, user.name, null, "confirm", user);
+      return res.status(200).json({ success: true, userdata: user, confirmed: false, message: msgs.resend })
+    } else {
+      return res.status(200).json({ success: false, message: "Email is in use. If you are registered, please log in." })
+    }
+
   } catch (err) {
-    res.json({success:false, err});
+    console.log(err);
+    return res.json({success:false, err});
   }
 };
+
+exports.confirmEmail = (req, res) => {
+  const { id } = req.params
+
+  User.findById(id)
+    .then(user => {
+
+      // A user with that id does not exist in the DB. Perhaps some tricky 
+      // user tried to go to a different url than the one provided in the 
+      // confirmation email.
+      if (!user) {
+        res.json({ confirmed: false, message: msgs.couldNotFind })
+      }
+      
+      // The user exists but has not been confirmed. We need to confirm this 
+      // user and let them know their email address has been confirmed.
+      else if (user && !user.confirmed) {
+        User.findByIdAndUpdate(id, { confirmed: true })
+          .then(() => res.json({ confirmed: true, message: msgs.confirmed }))
+          .catch(err => console.log(err))
+      }
+
+      // The user has already confirmed this email address.
+      else  {
+        res.json({ confirmed: true, message: msgs.alreadyConfirmed })
+      }
+
+    })
+    .catch(err => console.log(err))
+}
 
 exports.login = async (req, res, next) => {
   try {
     const user = await User.findOne({ 'email': req.body.email });
     if (!user) {
-      const error = new Error('Auth failed, email not found');
-      error.statusCode = 401;
-      throw error;
+      return res.json({loginSuccess:false, message:'Email not found'});
+    }
+    if (!user.confirmed) {
+      sendEmail(user.email, user.name, null, "confirm", user);
+      return res.status(200).json({loginSuccess:false, confirmed: false, message: msgs.resend })
     }
     const isMatch = await user.comparePassword(req.body.password);
     if (!isMatch) {

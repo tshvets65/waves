@@ -132,7 +132,6 @@ class UpdateSiteNfo extends Component {
     return (
       <div>
         <form onSubmit={(event) => this.submitForm(event)}>
-          <h1>Site info</h1>
           <FormField
             id={'address'}
             formdata={this.state.formdata.address}

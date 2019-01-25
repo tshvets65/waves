@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import FormField from '../utils/Form/formfield';
 
 import { connect } from 'react-redux';
-import { updateUserData, clearUpdateUser } from '../../actions/user';
+import { updateUserData } from '../../actions/user';
 
 import { update, generateData, isFormValid, populateFields } from '../utils/Form/formActions';
 
@@ -78,16 +80,7 @@ class UpdatePersonalNfo extends Component {
     if (formIsValid) {
       this.props.dispatch(updateUserData(dataToSubmit)).then(() => {
         if (this.props.user.updateUser.success) {
-          this.setState({
-            formSuccess: true
-          }, () => {
-            setTimeout(() => {
-              this.props.dispatch(clearUpdateUser());
-              this.setState({
-                formSuccess: false
-              })
-            }, 2000)
-          })
+          this.props.history.push('/user/dashboard')
         }
       })
 
@@ -134,11 +127,6 @@ class UpdatePersonalNfo extends Component {
             />
           </div>
           <div>
-            {
-              this.state.formSuccess ?
-                <div className="form_success">Success</div>
-              : null
-            }
             {this.state.formError ?
               <div className="error_label">
                 Please check your data
@@ -161,4 +149,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(UpdatePersonalNfo);
+export default connect(mapStateToProps)(withRouter(UpdatePersonalNfo));

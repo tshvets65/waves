@@ -1,13 +1,21 @@
 import React from 'react';
-import UserLayout from '../hoc/userLayout';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
+
 import UpdatePersonalNfo from './update_personal_nfo';
 
 const UpdateProfile = () => {
   return (
-    <UserLayout>
-      <h1>Profile</h1>
+    <div className="container">
+      <div className="row">
+          <Breadcrumb> 
+            <BreadcrumbItem>My Account</BreadcrumbItem>
+            <BreadcrumbItem><Link to="/user/dashboard">Personal Information</Link></BreadcrumbItem>
+            <BreadcrumbItem active>Update</BreadcrumbItem>
+          </Breadcrumb>
+        </div>
       <UpdatePersonalNfo />
-    </UserLayout>
+    </div>
   );
 };
 

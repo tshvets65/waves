@@ -1,14 +1,18 @@
 import React from 'react';
-import UserLayout from '../hoc/userLayout';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+
 import MyButton from '../utils/button';
-import UserHistoryBlock from '../utils/User/history_block';
 
 const UserDashboard = ({ user }) => {
   return (
-    <UserLayout>
-      <div>
+      <div className="container">
+        <div className="row">
+          <Breadcrumb> 
+            <BreadcrumbItem>My Account</BreadcrumbItem>
+            <BreadcrumbItem active>Personal Information</BreadcrumbItem>
+          </Breadcrumb>
+        </div>
         <div className="user_nfo_panel">
-          <h1>User information</h1>
           <div>
             <span>{user.userData.name}</span>
             <span>{user.userData.lastname}</span>
@@ -20,20 +24,7 @@ const UserDashboard = ({ user }) => {
             linkTo="/user/user_profile"
           />
         </div>
-
-        {
-          user.userData.history ?
-            <div className="user_nfo_panel">
-              <h1>History of purchases</h1>
-              <div className="user_product_block_wrapper">
-                <UserHistoryBlock products={user.userData.history} />
-              </div>
-            </div>
-            : null
-        }
-        
       </div>
-    </UserLayout>
 
   );
 };

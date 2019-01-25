@@ -9,6 +9,7 @@ class LoginForm extends Component {
 
   state = {
     formError: false,
+    errMessage: '',
     formSuccess: '',
     formdata: {
       email: {
@@ -49,6 +50,7 @@ class LoginForm extends Component {
     const newFormdata = update(element, this.state.formdata, 'login');
     this.setState({
       formError: false,
+      errorMessage: '',
       formdata: newFormdata
     })
   }
@@ -66,14 +68,16 @@ class LoginForm extends Component {
           this.props.history.push('/user/dashboard')
         } else {
           this.setState({
-            formError: true
+            formError: true,
+            errorMessage: response.payload.message
           })
         }
       });
 
     } else {
       this.setState({
-        formError: true
+        formError: true,
+        errorMessage: 'Please check your input'
       })
     }
   }
@@ -98,7 +102,7 @@ class LoginForm extends Component {
 
           {this.state.formError ?
             <div className="error_label">
-              Please check your data
+              {this.state.errorMessage}
             </div>
             : null}
           <button onClick={(event) => this.submitForm(event)}>

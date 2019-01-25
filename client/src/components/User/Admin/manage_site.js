@@ -1,12 +1,19 @@
 import React from 'react';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+
 import UpdateSiteNfo from './update_site_nfo';
-import UserLayout from '../../hoc/userLayout';
 
 const ManageSite = () => {
   return (
-    <UserLayout>
+    <div className="container">
+      <div className="row">
+        <Breadcrumb> 
+          <BreadcrumbItem>Admin</BreadcrumbItem>
+          <BreadcrumbItem active>Site Info</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
       <UpdateSiteNfo />
-    </UserLayout>
+    </div>
   );
 };
 

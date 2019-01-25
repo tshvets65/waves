@@ -1,16 +1,22 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary');
-
-require('dotenv');
+const cors = require('cors');
 
 const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
 const siteRoutes = require('./routes/site');
 
 const app = express();
+
+const CLIENT_ORIGIN = process.env.NODE_ENV === 'production' ? process.env.ROOT_URL : 'http://localhost:3000';
+
+app.use(cors({
+  origin: CLIENT_ORIGIN
+}));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -42,14 +48,20 @@ app.use((error, req, res, next) => {
   const message = error.message;
   const data = error.data;
   res.status(status).json({ message: message, data: data })
-})
+});
+
+const options = {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useFindAndModify: false
+};
 
 mongoose
   .connect(
-    process.env.MONGODB_URI
+    process.env.MONGODB_URI, options
   )
   .then(result => {
     console.log(`Connected to ${process.env.MONGODB_URI}`);
-    app.listen(process.env.PORT || 3002, () => console.log(`Server listening ...`));
+    app.listen(process.env.PORT || 3002, () => console.log('👍'));
   })
   .catch(err => console.log(err));
